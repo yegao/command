@@ -1,0 +1,28 @@
+{
+  "name": "{{appName}}",
+  "version": "1.0.0",
+  "subversion": {
+    "toolkit": "{{toolkitVersion}}"
+  },
+  "description": "",
+  "scripts": {
+    "server": "qgame server"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
+    "css-what": "^2.1.0",
+    "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.2.1",
+    "koa-send": "^4.1.1",
+    "koa-static": "^4.0.1",
+    "qgame-toolkit": "{{toolkitVersion}}",
+    "socket.io": "^2.1.0",
+    "webpack": "^3.11.0"
+  }
+}

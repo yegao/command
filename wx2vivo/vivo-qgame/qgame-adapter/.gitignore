@@ -1,0 +1,13 @@
+*~
+.DS_Store
+Thumbs.db
+
+*.log
+*.iml
+.idea/
+node_modules/
+dist/
+/lib/xparser
+/test/xparser/build
+/test/build
+package-lock.json

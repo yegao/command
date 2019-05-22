@@ -1,0 +1,30 @@
+{
+  "name": "wx2vivo",
+  "version": "1.0.0-alpha",
+  "description": "weixin program & game transform to vivo program & game",
+  "main": "wx2vivo.js",
+  "scripts": {
+    "build": "cp -rf src/* dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yegao/wx2vivo.git"
+  },
+  "keywords": [
+    "wx",
+    "weixin",
+    "vivo"
+  ],
+  "author": "ygg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yegao/wx2vivo/issues"
+  },
+  "homepage": "https://github.com/yegao/wx2vivo#readme",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "fs-extra": "^7.0.1"
+  }
+}

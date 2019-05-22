@@ -1,0 +1,20 @@
+{
+  "name": "qgame-adapter",
+  "version": "0.0.1",
+  "description": "Adapter for Vivo Mini Game",
+  "main": "index.js",
+  "author": "vivo",
+  "scripts": {
+    "dev": "webpack --config webpack.config.js --watch",
+    "build": "webpack --config webpack.config.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "escodegen": "^1.11.0",
+    "esprima": "^4.0.1",
+    "path": "^0.12.7",
+    "webpack": "^3.11.0"
+  }
+}
