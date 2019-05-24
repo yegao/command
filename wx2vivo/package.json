@@ -1,6 +1,6 @@
 {
   "name": "wx2vivo",
-  "version": "1.0.0-alpha",
+  "version": "1.1.9-alpha-laya-1",
   "description": "weixin program & game transform to vivo program & game",
   "main": "wx2vivo.js",
   "scripts": {
@@ -25,6 +25,10 @@
     "dist/"
   ],
   "dependencies": {
-    "fs-extra": "^7.0.1"
+    "better-console": "^1.0.1",
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "fs-extra": "^7.0.1",
+    "latest-version": "^5.1.0"
   }
 }

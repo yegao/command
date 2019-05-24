@@ -5,7 +5,7 @@ const child_process = require('child_process')
 
 const weixinPath = path.join(__dirname,"..","weixingame")
 const qgamePath = path.join(__dirname,"..",'vivo-qgame')
-const templatePath = path.join(__dirname,'template')
+const demoPath = path.join(__dirname,'template/app/demo')
 const wxConfigPath = path.join(weixinPath, 'project.config.json')
 const wxGameJsonPath = path.join(weixinPath, 'game.json')
 const packageJsonPath = path.join(qgamePath,'package.json')
@@ -17,7 +17,7 @@ function main () {
   child_process.execSync(`rm -rf ${qgamePath}`)
   child_process.execSync(`mkdir ${qgamePath}`)
   // step1: 拷贝模板到vivo-qgame
-  copyDir(templatePath, qgamePath)
+  copyDir(demoPath, qgamePath)
   // step2: 拷贝微信小游戏的工程到src目录下
   child_process.execSync(`cp -Rf ${weixinPath}/ ${path.join(qgamePath,'src')}`)
   // step3: 获取微信小游戏的project.config.json
@@ -55,7 +55,6 @@ function getWxGameJson () {
 }
 
 function getGamePackageJson () {
-
   const packageJson = fs.readFileSync(packageJsonPath)
   return JSON.parse(packageJson) || {}
 }
@@ -67,9 +66,9 @@ function createManifest () {
   return JSON.stringify(Object.assign({}, JSON.parse(gameConfig)))
 }
 
-
-
 main()
+// module.exports = main
+
 /* 微信 project.config.json
 {
   'description': '项目配置文件。',
@@ -128,4 +127,3 @@ main()
   }
 }
 */
-module.exports = main

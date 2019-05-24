@@ -176,9 +176,30 @@ function copyDir (src, dist, filterFiles = [], isDelDir = true) {
     }
   })
 }
+/**
+ * 字符串替换
+ * @param names
+ * @param files
+ */
+function replaceFiles (names, files) {
+  files.forEach(file => {
+    let content = fs.readFileSync(file, {
+      encoding: 'utf-8'
+    })
+    Object.keys(names).forEach(n => {
+      /* eslint-disable no-eval */
+      content = content.replace(eval(`/{{${n}}}/g`), function (defaultName) {
+        return names[n] || defaultName
+      })
+      /* eslint-enable no-eval */
+    })
 
+    fs.writeFileSync(file, content)
+  })
+}
 module.exports =  {
   mkdirsSync,
   copyDir,
-  clearDirSync
+  clearDirSync,
+  replaceFiles
 }

@@ -23,24 +23,17 @@ export default class Music {
     this.playBgm()
   }
 
-  playBgm() { 
+  playBgm() {
     this.bgmAudio.play()
   }
 
   playShoot() {
     this.shootAudio.currentTime = 0
     this.shootAudio.play()
-    var self = this;
-    this.shootAudio.onended = function(){
-      self.shootAudio.stop()
-    }
   }
 
   playExplosion() {
     this.boomAudio.currentTime = 0
     this.boomAudio.play()
-    this.boomAudio.onended = function(){
-      self.boomAudio.stop()
-    }
   }
 }

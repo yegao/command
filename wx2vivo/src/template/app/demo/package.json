@@ -6,7 +6,11 @@
   },
   "description": "",
   "scripts": {
-    "server": "qgame server"
+    "server": "qgame server",
+    "debug": "qgame debug",
+    "build": "qgame build",
+    "release": "qgame release",
+    "watch": "qgame watch"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
