@@ -1,22 +1,20 @@
-import Element from './Element'
-import { noop } from './util'
-import { innerWidth, innerHeight } from './WindowProperties'
+const Element = require('./Element');
 
-export default class HTMLElement extends Element {
-  className = ''
-  childern = []
-  style = {
-    width: `${innerWidth}px`,
-    height: `${innerHeight}px`
-  }
-
-  insertBefore = noop
-
-  innerHTML = ''
+class HTMLElement extends Element {
 
   constructor(tagName = '') {
     super()
     this.tagName = tagName.toUpperCase()
+
+    this.className = ''
+    this.children = []
+    this.style = {
+      width: `${window.innerWidth}px`,
+      height: `${window.innerHeight}px`
+    }
+
+    this.innerHTML = ''
+    this.parentElement = mainCanvas
   }
 
   setAttribute(name, value) {
@@ -27,28 +25,9 @@ export default class HTMLElement extends Element {
     return this[name]
   }
 
-  get clientWidth() {
-    const ret = parseInt(this.style.fontSize, 10) * this.innerHTML.length
-
-    return Number.isNaN(ret) ? 0 : ret
-  }
-
-  get clientHeight() {
-    const ret = parseInt(this.style.fontSize, 10)
-
-    return Number.isNaN(ret) ? 0 : ret
-  }
-
-  getBoundingClientRect() {
-    return {
-      top: 0,
-      left: 0,
-      width: innerWidth,
-      height: innerHeight
-    }
-  }
-
   focus() {
     
   }
 }
+
+module.exports = HTMLElement;

@@ -1,17 +1,17 @@
 {
   "name": "weapp-adapter",
   "version": "0.0.1",
-  "description": "Adapter for WeChat Mini Program",
+  "description": "Adapter for weixin game to vivo game",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "dev": "webpack --config build/webpack.config.js --watch",
-    "build": "webpack --hide-modules --config build/webpack.config.js & node ",
+    "build": "webpack --config build/webpack.config.js & node ",
     "test": "jest"
   },
-  "author": "linkqjlin",
+  "author": "yegao",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.4.4",

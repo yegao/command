@@ -1,5 +1,5 @@
-import HTMLElement from './HTMLElement'
-import MediaError from'./MediaError'
+const HTMLElement = require('./HTMLElement');
+const MediaError = require('./MediaError');
 
 const HAVE_NOTHING = 0;
 const HAVE_METADATA = 1;
@@ -7,7 +7,7 @@ const HAVE_CURRENT_DATA = 2;
 const HAVE_FUTURE_DATA = 3;
 const HAVE_ENOUGH_DATA = 4;
 
-export default class HTMLMediaElement extends HTMLElement {
+class HTMLMediaElement extends HTMLElement {
     constructor(type) {
         super(type)
         this._volume = 1.0;
@@ -66,3 +66,5 @@ export default class HTMLMediaElement extends HTMLElement {
         return 0;
     }
 }
+
+module.exports = HTMLMediaElement;

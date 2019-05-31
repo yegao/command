@@ -1,7 +1,8 @@
-import HTMLAudioElement from './HTMLAudioElement'
-/** vivo begin */
-const Audio = function Audio(url) {
+const HTMLAudioElement = require('./HTMLAudioElement');
+
+function Audio(url) {
     return new HTMLAudioElement(url);
 }
-export default Audio;
-/** vivo begin */
+
+module.exports = Audio;
+

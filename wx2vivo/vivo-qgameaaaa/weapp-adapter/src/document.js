@@ -1,44 +1,58 @@
-import * as window from './window'
-import HTMLElement from './HTMLElement'
-import Image from './Image'
-import Audio from './Audio'
-import Canvas from './Canvas'
-import './EventIniter/'
+const HTMLElement = require('./HTMLElement');
+const Image = require('./Image');
+const Audio = require('./Audio');
+const HTMLCanvasElement = require('./HTMLCanvasElement');
+const HTMLVideoElement = require('./HTMLVideoElement');
+const HTMLScriptElement = require('./HTMLScriptElement');
+const Node = require('./Node');
+const FontFaceSet = require('./FontFaceSet')
 
-const events = {}
+class Document extends Node {
 
-const document = {
-  readyState: 'complete',
-  visibilityState: 'visible',
-  documentElement: window,
-  hidden: false,
-  style: {},
-  location: window.location,
-  ontouchstart: null,
-  ontouchmove: null,
-  ontouchend: null,
+  constructor() {
+    super()
 
-  head: new HTMLElement('head'),
-  body: new HTMLElement('body'),
+    this.readyState = 'complete'
+    this.visibilityState = 'visible'
+    this.documentElement = window
+    this.hidden = false
+    this.style = {}
+    this.location = require('./location')
+
+    this.head = new HTMLElement('head')
+    this.body = new HTMLElement('body')
+
+    this.fonts = new FontFaceSet()
+
+    this.scripts = []
+  }
+
+  createElementNS(namespaceURI, qualifiedName, options) {
+    return this.createElement(qualifiedName);
+  }
 
   createElement(tagName) {
     if (tagName === 'canvas') {
-      return new Canvas()
+      return new HTMLCanvasElement()
     } else if (tagName === 'audio') {
       return new Audio()
     } else if (tagName === 'img') {
       return new Image()
+    } else if (tagName === 'video') {
+      return new HTMLVideoElement();
+    } else if (tagName === 'script') {
+      return new HTMLScriptElement();
     }
 
     return new HTMLElement(tagName)
-  },
+  }
 
   getElementById(id) {
-    if (id === window.canvas.id) {
-      return window.canvas
+    if (id === mainCanvas.id || id === 'canvas') {
+      return mainCanvas
     }
-    return null
-  },
+    return new HTMLElement(id);
+  }
 
   getElementsByTagName(tagName) {
     if (tagName === 'head') {
@@ -46,10 +60,10 @@ const document = {
     } else if (tagName === 'body') {
       return [document.body]
     } else if (tagName === 'canvas') {
-      return [window.canvas]
+      return [mainCanvas]
     }
-    return []
-  },
+    return [new HTMLElement(tagName)]
+  }
 
   getElementsByName(tagName) {
     if (tagName === 'head') {
@@ -57,10 +71,10 @@ const document = {
     } else if (tagName === 'body') {
       return [document.body]
     } else if (tagName === 'canvas') {
-      return [window.canvas]
+      return [mainCanvas]
     }
-    return []
-  },
+    return [new HTMLElement(tagName)]
+  }
 
   querySelector(query) {
     if (query === 'head') {
@@ -68,12 +82,12 @@ const document = {
     } else if (query === 'body') {
       return document.body
     } else if (query === 'canvas') {
-      return window.canvas
-    } else if (query === `#${window.canvas.id}`) {
-      return window.canvas
+      return mainCanvas
+    } else if (query === `#${mainCanvas.id}`) {
+      return mainCanvas
     }
-    return null
-  },
+    return new HTMLElement(query);
+  }
 
   querySelectorAll(query) {
     if (query === 'head') {
@@ -81,40 +95,27 @@ const document = {
     } else if (query === 'body') {
       return [document.body]
     } else if (query === 'canvas') {
-      return [window.canvas]
+      return [mainCanvas]
     }
-    return []
-  },
+    return [new HTMLElement(query)];
+  }
 
-  addEventListener(type, listener) {
-    if (!events[type]) {
-      events[type] = []
-    }
-    events[type].push(listener)
-  },
+  createTextNode() {
+      return new HTMLElement('text');
+  }
 
-  removeEventListener(type, listener) {
-    const listeners = events[type]
+  elementFromPoint() {
+      return window.canvas;
+  }
 
-    if (listeners && listeners.length > 0) {
-      for (let i = listeners.length; i--; i > 0) {
-        if (listeners[i] === listener) {
-          listeners.splice(i, 1)
-          break
-        }
+  createEvent(type) {
+      if (window[type]) {
+          return new window[type];
       }
-    }
-  },
-
-  dispatchEvent(event) {
-    const listeners = events[event.type]
-
-    if (listeners) {
-      for (let i = 0; i < listeners.length; i++) {
-        listeners[i](event)
-      }
-    }
+      return null;
   }
 }
 
-export default document
+let document = new Document()
+
+module.exports = document

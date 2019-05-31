@@ -7,8 +7,7 @@ import DataBus    from './databus'
 
 let ctx   = canvas.getContext('2d')
 let databus = new DataBus()
-console.log(ctx.drawImage)
-initTexCanvas(canvas)
+
 /**
  * 游戏主函数
  */
@@ -139,7 +138,6 @@ export default class Main {
         canvas.addEventListener('touchstart', this.touchHandler)
       }
     }
-    renderTexCanvas()
   }
 
   // 游戏逻辑更新主函数

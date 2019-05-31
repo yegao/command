@@ -48,7 +48,7 @@ function createShaderProgram(gl, vertexShader, fragmentShader) {
 }
 
 var vertexShader, fragmentShader, shaderProgramcanvas, vertexBuffer, indexBuffer, canvasTexture;
-export const initTexCanvas = function initTexCanvas(canvas) {
+const initTexCanvas = function (canvas) {
     gl = canvas.getContext("webgl");
 
     vertexShader = loadShader(gl, gl.VERTEX_SHADER, vertexShader_source);
@@ -67,7 +67,7 @@ export const initTexCanvas = function initTexCanvas(canvas) {
     // setTextureCanvas(canvas);
 }
 
-export const setTextureCanvas = function setTextureCanvas(canvas) {
+const setTextureCanvas = function (canvas) {
     //texture
     // canvasTexture = gl.createTexture();
 
@@ -119,7 +119,7 @@ var vertices = new Float32Array([
 ]);
 //索引数组
 var indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
-export const renderTexCanvas = function renderTexCanvas() {
+const renderTexCanvas = function () {
     //record previous render data
     var shaderIndex = gl.getParameter(gl.CURRENT_PROGRAM);
     var arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
@@ -163,4 +163,10 @@ export const renderTexCanvas = function renderTexCanvas() {
 
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture2D);
+}
+
+module.exports = {
+    initTexCanvas,
+    setTextureCanvas,
+    renderTexCanvas
 }

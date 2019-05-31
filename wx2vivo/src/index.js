@@ -5,7 +5,7 @@ const child_process = require('child_process')
 
 
 const console = require('better-console')
-const program = require('commander')
+// const program = require('commander')
 const chalk = require('chalk')
 const getLatestVersion = require('latest-version')
 // const fs = require('fs')
@@ -31,7 +31,6 @@ async function init () {
 }
 
 init()
-
 
 function main (wexinGamePath, currentVersion) {
   const vivoGameName = 'vivo-qgame'

@@ -3,7 +3,7 @@ const MEDIA_ERR_NETWORK = 2;
 const MEDIA_ERR_DECODE = 3;
 const MEDIA_ERR_SRC_NOT_SUPPORTED = 4;
 
-export default class MediaError {
+class MediaError {
 	constructor() {
 
 	}
@@ -16,3 +16,5 @@ export default class MediaError {
 		return ""
 	}
 }
+
+module.exports = MediaError;

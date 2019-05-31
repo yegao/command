@@ -1,20 +1,14 @@
-import { HTMLCanvasElement, CanvasRenderingContext2D, WebGLRenderingContext } from './constructor'
-import HTMLElement from './HTMLElement'
+const HTMLElement =require('./HTMLElement')
 // import document from './document'
-import { setTextureCanvas,renderTexCanvas } from './vivo/texture'
-
+const { initTexCanvas,setTextureCanvas,renderTexCanvas } = require('./vivo/texture') 
 // let hasModifiedCanvasPrototype = false
 // let hasInit2DContextConstructor = false
 // let hasInitWebGLContextConstructor = false
 /** vivo begin */
-const wx = qg
 var oldDrawImage = null
-/** vivo begin */
-export default function Canvas() {
-  // const canvas1 = wx.createCanvas()
-  const canvas = wx.createCanvas()
-  // console.log("==================")
-  // console.log(canvas1 === canvas)
+/** vivo end */
+module.exports = function Canvas() {
+  const canvas = qg.createCanvas()
   canvas.type = 'canvas'
 
   canvas.__proto__.__proto__ = new HTMLElement('canvas')
@@ -51,6 +45,6 @@ export default function Canvas() {
     }
     return ret
   }
-
+  initTexCanvas(canvas)
   return canvas
 }

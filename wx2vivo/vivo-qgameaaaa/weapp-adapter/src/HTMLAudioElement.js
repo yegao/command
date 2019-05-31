@@ -1,5 +1,4 @@
-/** vivo begin */
-import HTMLMediaElement from './HTMLMediaElement'
+const HTMLMediaElement = require('./HTMLMediaElement');
 
 const HAVE_NOTHING = 0
 const HAVE_METADATA = 1
@@ -12,7 +11,7 @@ const _src = new WeakMap()
 const _loop = new WeakMap()
 const _autoplay = new WeakMap()
 
-export default class HTMLAudioElement extends HTMLMediaElement {
+class HTMLAudioElement extends HTMLMediaElement {
     constructor(url) {
         super('audio')
 
@@ -139,4 +138,5 @@ export default class HTMLAudioElement extends HTMLMediaElement {
         return newAudio
     }
 }
-/** vivo end */
+
+module.exports = HTMLAudioElement;

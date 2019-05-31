@@ -1,7 +1,10 @@
 const location = {
-  href: 'game.js',
-  reload() {
-  }
+    href: 'game.js',
+    pathname: 'game.js',
+    search: '',
+    hash: '',
+    reload() {
+    }
 }
 
-export default location
+module.exports = location;
