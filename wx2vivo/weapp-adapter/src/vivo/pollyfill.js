@@ -35,30 +35,31 @@ wx.exitMiniProgram = qg.exitApplication // 微信中为异步,vivo中为同步
 
 
 // 应用级事件
-// wx.onError = qg.onError
-// wx.onAudioInterruptionBegin = qg.onAudioInterruptionBegin
-// wx.onAudioInterruptionEnd = qg.onAudioInterruptionEnd
-// wx.offAudioInterruptionBegin = qg.offAudioInterruptionBegin
-// wx.offAudioInterruptionEnd = qg.offAudioInterruptionEnd
+wx.onError = qg.onError
+wx.onAudioInterruptionBegin = qg.onAudioInterruptionBegin
+wx.onAudioInterruptionEnd = qg.onAudioInterruptionEnd
+wx.offAudioInterruptionBegin = qg.offAudioInterruptionBegin
+wx.offAudioInterruptionEnd = qg.offAudioInterruptionEnd
+
 
 // 触摸事件
-// wx.onTouchStart = qg.onTouchStart
-// wx.onTouchMove = qg.onTouchMove
-// wx.onTouchEnd = qg.onTouchEnd
-// wx.onTouchCancel = qg.onTouchCancel
-// wx.offTouchStart = qg.offTouchStart
-// wx.offTouchMove = qg.offTouchMove
-// wx.offTouchEnd = qg.offTouchEnd
-// offTouchCancel = qg.offTouchCancel
+wx.onTouchStart = qg.onTouchStart
+wx.onTouchMove = qg.onTouchMove
+wx.onTouchEnd = qg.onTouchEnd
+wx.onTouchCancel = qg.onTouchCancel
+wx.offTouchStart = qg.offTouchStart
+wx.offTouchMove = qg.offTouchMove
+wx.offTouchEnd = qg.offTouchEnd
+wx.offTouchCancel = qg.offTouchCancel
 
 
 // 性能
-// wx.triggerGC = qg.triggerGC
-// wx.getPerformance = qg.getPerformance
+wx.triggerGC = qg.triggerGC
+wx.getPerformance = qg.getPerformance
 
 
 // 分包加载
-// wx.loadSubpackage = qg.loadSubpackage
+wx.loadSubpackage = qg.loadSubpackage
 
 
 // 调试
@@ -74,17 +75,17 @@ wx.exitMiniProgram = qg.exitApplication // 微信中为异步,vivo中为同步
 
 
 // 渲染
-// wx.createCanvas = qg.createCanvas
+wx.createCanvas = qg.createCanvas
 
 // WebGLRenderingContext.wxBindCanvasTexture -- 暂不支持 需要适配 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/WebGLRenderingContext.wxBindCanvasTexture.html
-// wx.setPreferredFramesPerSecond = qg.setPreferredFramesPerSecond
+wx.setPreferredFramesPerSecond = qg.setPreferredFramesPerSecond
 // cancelAnimationFrame
 // requestAnimationFrame
 wx.loadFont = function(path){
     qg.loadFont('familyName', path) // 参数有区别 需要适配
 }
-// wx.getTextLineHeight = qg.getTextLineHeight
-// wx.createImage = qg.createImage
+wx.getTextLineHeight = qg.getTextLineHeight
+wx.createImage = qg.createImage
 wx.createRewardedVideoAd = noop // 暂不支持激励视频广告
 wx.createInterstitialAd = function(data){ // 参数有区别 需要适配
     if(data){
@@ -174,16 +175,16 @@ wx.showLoading = function(data){
 }
 wx.showActionSheet = noop
 wx.hideToast = noop
-// wx.hideLoading = qg.hideLoading
+wx.hideLoading = qg.hideLoading
 
 wx.updateKeyboard = noop
-// wx.showKeyboard = qg.showKeyboard
-// wx.onKeyboardInput = qg.onKeyboardInput
-// wx.onKeyboardConfirm = qg.onKeyboardConfirm
-// wx.onKeyboardComplete = qg.onKeyboardComplete
-// wx.offKeyboardInput = qg.offKeyboardInput
-// wx.offKeyboardConfirm = qg.offKeyboardConfirm
-// wx.offKeyboardComplete = qg.offKeyboardComplete
+wx.showKeyboard = qg.showKeyboard
+wx.onKeyboardInput = qg.onKeyboardInput
+wx.onKeyboardConfirm = qg.onKeyboardConfirm
+wx.onKeyboardComplete = qg.onKeyboardComplete
+wx.offKeyboardInput = qg.offKeyboardInput
+wx.offKeyboardConfirm = qg.offKeyboardConfirm
+wx.offKeyboardComplete = qg.offKeyboardComplete
 wx.hideKeyboard = function(data){
     qg.hideKeyboard();
     if(typeof data.success === 'function'){
@@ -198,7 +199,7 @@ wx.offWindowResize = noop // 需要适配
 
 
 // 网络
-// wx.request = qg.request
+wx.request = qg.request
 wx.downloadFile = qg.download // 和微信有点区别 不好适配
 wx.uploadFile = function(data){
     return qg.uploadFile({
@@ -234,10 +235,9 @@ wx.requestMidasPayment = function(data){ // -- 不好适配
 
 
 // 媒体
-
 wx.setInnerAudioOption = noop
 wx.getAvailableAudioSources = noop
-// wx.createInnerAudioContext = qg.createInnerAudioContext
+wx.createInnerAudioContext = qg.createInnerAudioContext
 wx.saveImageToPhotosAlbum = function(data){
     return qg.saveToPhotosAlbum({
         uri: data.filePath,
@@ -246,7 +246,6 @@ wx.saveImageToPhotosAlbum = function(data){
         complete: data.complete || noop
     })
 }
-
 wx.previewImage = function(data){
     return qg.previewImage({
         uris:data.urls,
@@ -615,3 +614,36 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
         }
     }
 }
+
+// 开放接口
+wx.navigateToMiniProgram = noop
+wx.authorize = function(data){ // 不好适配
+    return qg.authorize({
+        type: data.type || "token",
+        redirectUri: data.redirectUri,
+        scope: data.scope,
+        state: data.state,
+        success: data.success || noop,
+        fail: data.fail || noop,
+        complete: data.complete || noop
+    })
+}
+wx.getUserInfo = function(data){ // 不好适配
+    // console.log("获取用户信息请手动适配")
+    return qg.getProfile({
+        token: data.token,
+        success: data.success || noop,
+        fail: data.fail || noop,
+        complete: data.complete || noop
+    })
+}
+wx.createUserInfoButton = function(){
+    return {
+        destroy(){},
+        hide(){},
+        offTap(){},
+        onTap(){},
+        show(){}
+    }
+}
+wx.checkSession = noop
