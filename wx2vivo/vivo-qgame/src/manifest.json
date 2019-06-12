@@ -14,7 +14,7 @@
     "downloadFile": 5000
   },
   "config": {
-    "logLevel": "off"
+    "logLevel": "log"
   },
   "display": {
     "statusbar": "false",

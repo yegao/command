@@ -1,0 +1,29 @@
+{
+  "name": "weapp-vivo-adapter",
+  "version": "0.0.1",
+  "description": "Adapter for weixin game to vivo game",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "webpack --config webpack.config.js --watch",
+    "build": "webpack --config webpack.config.js"
+  },
+  "author": "yegao",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/preset-env": "^7.4.4",
+    "babel-loader": "^8.0.6",
+    "jest": "^20.0.4",
+    "path": "^0.12.7",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "regenerator-runtime": "^0.13.2"
+  }
+}
