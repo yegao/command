@@ -96,7 +96,7 @@ wx.setPreferredFramesPerSecond = qg.setPreferredFramesPerSecond
 // cancelAnimationFrame
 // requestAnimationFrame
 wx.loadFont = function(path){
-    qg.loadFont('familyName', path) // 参数有区别 需要适配
+    return qg.loadFont('familyName', path) // 参数有区别 需要适配
 }
 wx.getTextLineHeight = qg.getTextLineHeight
 wx.createImage = qg.createImage

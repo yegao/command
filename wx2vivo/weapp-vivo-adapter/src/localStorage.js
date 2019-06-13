@@ -1,34 +1,34 @@
-/** vivo begin */
-const wx = qg
-/** vivo begin */
 const localStorage = {
-  get length() {
-    const { keys } = wx.getStorageInfoSync()
+    get length() {
+        const { keys } = qg.getStorageInfoSync()
 
-    return keys.length
-  },
+        return keys.length
+    },
 
-  key(n) {
-    const { keys } = wx.getStorageInfoSync()
+    key(n) {
+        const { keys } = qg.getStorageInfoSync()
 
-    return keys[n]
-  },
+        return keys[n]
+    },
 
-  getItem(key) {
-    return wx.getStorageSync(key)
-  },
+    getItem(key) {
+        return qg.getStorageSync({ key })
+    },
 
-  setItem(key, value) {
-    return wx.setStorageSync(key, value)
-  },
+    setItem(key, value) {
+        qg.setStorageSync({
+            key,
+            value
+        })
+    },
 
-  removeItem(key) {
-    wx.removeStorageSync(key)
-  },
+    removeItem(key) {
+        qg.deleteStorageSync({ key })
+    },
 
-  clear() {
-    wx.clearStorageSync()
-  }
+    clear() {
+        qg.clearStorageSync()
+    }
 }
 
-export default localStorage
+module.exports = localStorage

@@ -34,31 +34,28 @@ export default class BackGround extends Sprite {
    * 第二张补全除了top高度之外的部分，其余的隐藏在屏幕下面
    */
   render(ctx) {
-    if(this.img._data){
-      console.log(this.img._data)
-      ctx.drawImage(
-        this.img,
-        0,
-        0,
-        this.width,
-        this.height,
-        0,
-        -screenHeight + this.top,
-        screenWidth,
-        screenHeight
-      )
-  
-      ctx.drawImage(
-        this.img,
-        0,
-        0,
-        this.width,
-        this.height,
-        0,
-        this.top,
-        screenWidth,
-        screenHeight
-      )
-    }
+    ctx.drawImage(
+      this.img,
+      0,
+      0,
+      this.width,
+      this.height,
+      0,
+      -screenHeight + this.top,
+      screenWidth,
+      screenHeight
+    )
+
+    ctx.drawImage(
+      this.img,
+      0,
+      0,
+      this.width,
+      this.height,
+      0,
+      this.top,
+      screenWidth,
+      screenHeight
+    )
   }
 }

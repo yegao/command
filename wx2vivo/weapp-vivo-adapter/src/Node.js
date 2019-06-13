@@ -1,18 +1,22 @@
-import EventTarget from './EventTarget'
+const EventTarget = require('./EventTarget');
 
-export default class Node extends EventTarget {
+class Node extends EventTarget {
   constructor() {
     super()
+    this.childNodes = []
+    this.parentNode = mainCanvas;
   }
 
-  childNodes = []
-
   appendChild(node) {
-    if (node instanceof Node) {
-      this.childNodes.push(node)
-    } else {
-      throw new TypeError('Failed to executed \'appendChild\' on \'Node\': parameter 1 is not of type \'Node\'.')
-    }
+    this.childNodes.push(node)
+  }
+
+  insertBefore(newNode, referenceNode) {
+    return newNode;
+  }
+
+  replaceChild(newChild, oldChild) {
+    return oldChild;
   }
 
   cloneNode() {
@@ -30,4 +34,10 @@ export default class Node extends EventTarget {
     }
     return null
   }
+
+  contains(node) {
+    return this.childNodes.indexOf(node) > -1;
+  }
 }
+
+module.exports = Node;
