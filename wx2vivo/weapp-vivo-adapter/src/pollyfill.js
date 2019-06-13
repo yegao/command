@@ -1,6 +1,12 @@
 require("regenerator-runtime")
 window.wx = {}
 const noop = function(){}
+const notSupport = function(name){
+    qg.showTroast({
+        message:"暂时不支持"+name+"方法,请手动修改"
+    })
+    console.log("暂时不支持"+name+"方法,请手动修改")
+}
 // 系统
 wx.getSystemInfo = qg.getSystemInfo
 wx.getSystemInfoSync = async function(){
@@ -471,8 +477,12 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 })
             })
         },
-        readdir: noop, // vivo暂时不支持readdir
-        readdirSync: noop, // vivo暂时不支持readdirSync
+        readdir: function(){
+            notSupport("readdir")
+        },
+        readdirSync: function(){
+            notSupport("readdirSync")
+        },
         readFile(data){
             return qg.readFile({
                 uri: data.filePath, // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归创建文件夹，是否需要适配
@@ -674,21 +684,7 @@ wx.navigateToMiniProgram = noop
 //         })
 //     }
 // })
-wx.authorize = function(data){ // 不好适配
-    qg.showToast({
-        message:"无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配"
-    })
-    console.log("无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配,具体请参考https://minigame.vivo.com.cn/documents/#/api/service/account")
-    // return qg.authorize({
-    //     type: data.type || "token",
-    //     redirectUri: data.redirectUri,
-    //     scope: data.scope,
-    //     state: data.state,
-    //     success: data.success || noop,
-    //     fail: data.fail || noop,
-    //     complete: data.complete || noop
-    // })
-}
+
 wx.getUserInfo = function(data){ // 不好适配
     qg.showToast({
         message:"无法自动适配wx.getUserInfo,请使用qg.getProfile进行适配"
@@ -715,4 +711,238 @@ wx.createUserInfoButton = function(){
         show(){}
     }
 }
-wx.checkSession = noop
+wx.checkSession = function(){
+    notSupport("checkSession")
+}
+
+wx.authorize = function(data){ // 不好适配
+    qg.showToast({
+        message:"无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配"
+    })
+    console.log("无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配,具体请参考https://minigame.vivo.com.cn/documents/#/api/service/account")
+    // return qg.authorize({
+    //     type: data.type || "token",
+    //     redirectUri: data.redirectUri,
+    //     scope: data.scope,
+    //     state: data.state,
+    //     success: data.success || noop,
+    //     fail: data.fail || noop,
+    //     complete: data.complete || noop
+    // })
+}
+
+
+// 开放数据域
+wx.setUserCloudStorage = function(){
+    notSupport("setUserCloudStorage")
+}
+wx.removeUserCloudStorage = function(){
+    notSupport("removeUserCloudStorage")
+}
+wx.getUserCloudStorage = function(){
+    notSupport("getUserCloudStorage")
+}
+wx.getSharedCanvas = function(){
+    notSupport("getSharedCanvas")
+}
+wx.getGroupCloudStorage = function(){
+    notSupport("getGroupCloudStorage")
+}
+wx.getFriendCloudStorage = function(){
+    notSupport("getFriendCloudStorage")
+}
+wx.onMessage = function(){
+    notSupport("onMessage")
+}
+wx.getOpenDataContext = function(){
+    notSupport("getOpenDataContext")
+}
+
+// 防沉迷
+wx.checkIsUserAdvisedToRest = function(){
+    notSupport("checkIsUserAdvisedToRest")
+}
+
+// 意见反馈
+wx.createFeedbackButton = function(){
+    notSupport("createFeedbackButton")
+}
+
+// 设置
+wx.openSetting = function(){
+    notSupport("openSetting")
+}
+wx.getSetting = function(){
+    notSupport("getSetting")
+}
+wx.createOpenSettingButton = function(){
+    notSupport("createOpenSettingButton")
+}
+
+// 游戏圈
+wx.createGameClubButton = function(){
+    notSupport("createGameClubButton")
+}
+
+// 客服消息
+wx.openCustomerServiceConversation = function(){
+    notSupport("openCustomerServiceConversation")
+}
+
+// 微信运动
+wx.getWeRunData = function(){
+    notSupport("getWeRunData")
+}
+
+// 卡卷
+wx.openCard = function(){
+    notSupport("openCard")
+}
+wx.addCard = function(){
+    notSupport("addCard")
+}
+
+// 设备
+// 震动
+wx.vibrateLong = function(data){
+    qg.vibrateLong()
+    if(typeof data.success === 'function'){
+        data.success()
+    }
+    if(typeof data.complete === 'function'){
+        data.complete()
+    }
+}
+wx.vibrateShort = function(data){
+    qg.vibrateShort()
+    if(typeof data.success === 'function'){
+        data.success()
+    }
+    if(typeof data.complete === 'function'){
+        data.complete()
+    }
+}
+// 电量
+wx.getBatteryInfoSync = qg.getBatteryInfoSync
+wx.getBatteryInfo = qg.getBatteryInfo
+// 剪贴板
+wx.setClipboardData = function(data){
+    return qg.setClipboardData({
+        text:data.data,
+        success:data.success,
+        fail:data.fail,
+        complete:data.complete
+    })
+}
+wx.getClipboardData = function(data){
+    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的getClipboardData和vivo小游戏的getClipboardData手动修改")
+    qg.getClipboardData(data)
+}
+//网络
+wx.onNetworkStatusChange = function(callback){
+    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onNetworkStatusChange和vivo小游戏的subscribeNetworkStatus手动修改")
+    return qg.subscribeNetworkStatus({
+        callback
+    })
+}
+wx.getNetworkType = function(data){
+    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的getNetworkType和vivo小游戏的getNetworkType手动修改")
+    return qg.getNetworkType(data)
+}
+// 屏幕
+wx.setScreenBrightness = function(data){
+    qg.setScreenBrightness({
+        value: parseInt(data.value * 255),
+        success: data.success || noop,
+        fail: data.fail || noop,
+        complete: data.complete || noop
+    })
+}
+wx.getScreenBrightness = function(data){
+    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的getScreenBrightness和vivo小游戏的getScreenBrightness手动修改")
+    return qg.getScreenBrightness(data)
+}
+wx.setKeepScreenOn = qg.setKeepScreenOn
+// 转屏
+wx.onDeviceOrientationChange = function(){
+    notSupport("onDeviceOrientationChange")
+}
+wx.offDeviceOrientationChange = function(){
+    notSupport("onDeviceOrientationChange")
+}
+// 加速计
+wx.startAccelerometer = function(data){
+    if(typeof data.success === 'function'){
+        data.success({errMsg: "startAccelerometer:ok"})
+    }
+    if(typeof data.complete === 'function'){
+        data.complete({errMsg: "startAccelerometer:ok"})
+    }
+}
+wx.onAccelerometerChange = function(callback){
+    qg.subscribeAccelerometer({
+        callback
+    })
+}
+wx.stopAccelerometer = function(data){
+    qg.unsubscribeAccelerometer()
+    if(typeof data.success === 'function'){
+        data.success({errMsg: "stopAccelerometer:ok"})
+    }
+    if(typeof data.complete === 'function'){
+        data.complete({errMsg: "stopAccelerometer:ok"})
+    }
+}
+// 罗盘
+wx.startCompass = function(data){
+    if(typeof data.success === 'function'){
+        data.success({errMsg: "startCompass:ok"})
+    }
+    if(typeof data.complete === 'function'){
+        data.complete({errMsg: "startCompass:ok"})
+    }
+}
+wx.onCompassChange = function(callback){
+    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onCompassChange和vivo小游戏的subscribeCompass手动修改")
+    qg.subscribeCompass({
+        callback
+    })
+}
+wx.stopCompass = function(data){
+    qg.unsubscribeCompass()
+    if(typeof data.success === 'function'){
+        data.success({errMsg: "stopCompass:ok"})
+    }
+    if(typeof data.complete === 'function'){
+        data.complete({errMsg: "stopCompass:ok"})
+    }
+}
+// 设备方向
+wx.startDeviceMotionListening = function(){
+    notSupport("startDeviceMotionListening")
+}
+wx.stopDeviceMotionListening = function(){
+    notSupport("stopDeviceMotionListening")
+}
+wx.onDeviceMotionChange = function(){
+    notSupport("onDeviceMotionChange")
+}
+wx.startGyroscope = function(){
+    notSupport("startGyroscope")
+}
+wx.stopGyroscope = function(){
+    notSupport("stopGyroscope")
+}
+wx.onGyroscopeChange = function(){
+    notSupport("onGyroscopeChange")
+}
+// 性能
+wx.onMemoryWarning = function(){
+    notSupport("onMemoryWarning")
+}
+
+
+// Worker
+wx.createWorker = function(){
+    notSupport("createWorker")
+}
