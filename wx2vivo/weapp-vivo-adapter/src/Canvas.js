@@ -1,4 +1,3 @@
-const HTMLElement = require('./HTMLElement')
 var gl = __gl;
 //顶点着色器源码
 var vertexShader_source = "attribute vec4 a_Position;\n" +
@@ -168,8 +167,6 @@ const renderTexCanvas = function () {
 var oldDrawImage = null
 
 const canvas = window.mainCanvas || qg.createCanvas()
-canvas.type = 'canvas'
-canvas.__proto__.__proto__ = new HTMLElement('canvas')
 const ctx = canvas.getContext('2d')
 const oldGetContext = canvas.getContext;
 canvas.getContext = function(arg) {

@@ -1,9 +1,6 @@
 import * as window from '../window'
 import document from '../document'
 import { noop } from '../util/'
-/** vivo begin */
-const wx = qg
-/** vivo begin */
 class TouchEvent {
   target = window.canvas
   currentTarget = window.canvas
@@ -29,7 +26,7 @@ function touchEventHandlerFactory(type) {
   }
 }
 
-wx.onTouchStart(touchEventHandlerFactory('touchstart'))
-wx.onTouchMove(touchEventHandlerFactory('touchmove'))
-wx.onTouchEnd(touchEventHandlerFactory('touchend'))
-wx.onTouchCancel(touchEventHandlerFactory('touchcancel'))
+qg.onTouchStart(touchEventHandlerFactory('touchstart'))
+qg.onTouchMove(touchEventHandlerFactory('touchmove'))
+qg.onTouchEnd(touchEventHandlerFactory('touchend'))
+qg.onTouchCancel(touchEventHandlerFactory('touchcancel'))
