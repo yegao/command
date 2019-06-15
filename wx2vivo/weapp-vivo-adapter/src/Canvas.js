@@ -164,10 +164,14 @@ const renderTexCanvas = function () {
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture2D);
 }
-var oldDrawImage = null
-
+let oldDrawImage = null
+let oldFillRect = null
+let oldFillText = null
 const canvas = window.mainCanvas || qg.createCanvas()
 const ctx = canvas.getContext('2d')
+let info = qg.getSystemInfoSync()
+const {screenWidth,screenHeight} = info
+ctx.scale(screenWidth/375, screenHeight/667)
 const oldGetContext = canvas.getContext;
 canvas.getContext = function(arg) {
   if(arg === '2d') {
@@ -177,12 +181,36 @@ canvas.getContext = function(arg) {
     return oldGetContext(arg)
   }
 }
+
+function renderHandler() {
+  renderTexCanvas();
+  requestAnimationFrame(renderHandler);
+}
+
 if(!oldDrawImage) {
   if(oldDrawImage = ctx.drawImage) {
     ctx.constructor.prototype.drawImage = function(...args) {
       oldDrawImage.call(ctx,...args)
       setTextureCanvas(canvas);
       renderTexCanvas();
+    }
+  }
+}
+if(!oldFillRect) {
+  if(oldFillRect = ctx.fillRect) {
+    ctx.constructor.prototype.fillRect = function(...args) {
+      oldFillRect.call(ctx,...args)
+      setTextureCanvas(canvas);
+      renderHandler()
+    }
+  }
+}
+if(!oldFillText) {
+  if(oldFillText = ctx.fillText) {
+    ctx.constructor.prototype.fillText = function(...args) {
+      oldFillText.call(ctx,...args)
+      setTextureCanvas(canvas);
+      renderHandler()
     }
   }
 }

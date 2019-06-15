@@ -9,18 +9,7 @@ const notSupport = function(name){
 }
 // 系统
 wx.getSystemInfo = qg.getSystemInfo
-wx.getSystemInfoSync = async function(){
-    return await new Promise(function(resolve,reject){
-        qg.getSystemInfo({
-            success(data){
-                resolve(data)
-            },
-            fail(data){
-                reject(data)
-            }
-        })
-    })
-}
+wx.getSystemInfoSync = qg.getSystemInfoSync
 wx.getLaunchOptionsSync = noop
 //更新
 wx.getUpdateManager = function(){

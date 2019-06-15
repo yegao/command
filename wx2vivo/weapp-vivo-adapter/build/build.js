@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 webpack({
-    mode:"development",
+    mode:"production",
     entry: path.join(__dirname, '../src/index'),
     output: {
         path: path.join(__dirname, '../dist'),
