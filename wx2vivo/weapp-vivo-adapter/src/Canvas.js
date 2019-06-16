@@ -167,6 +167,7 @@ const renderTexCanvas = function () {
 let oldDrawImage = null
 let oldFillRect = null
 let oldFillText = null
+let oldStrokeRect = null
 const canvas = window.mainCanvas || qg.createCanvas()
 const ctx = canvas.getContext('2d')
 let info = qg.getSystemInfoSync()
@@ -214,6 +215,16 @@ if(!oldFillText) {
     }
   }
 }
+if(!oldStrokeRect) {
+  if(oldStrokeRect = ctx.strokeRect) {
+    ctx.constructor.prototype.strokeRect = function(...args) {
+      oldStrokeRect.call(ctx,...args)
+      setTextureCanvas(canvas);
+      renderHandler()
+    }
+  }
+}
+
 canvas.getBoundingClientRect = function() {
   const ret = {
     top: 0,

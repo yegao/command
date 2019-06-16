@@ -22,14 +22,16 @@ wx.getUpdateManager = function(){
         onUpdateReady(){}
     }
 }
-
-
 // 生命周期
-wx.onShow = qg.onShow
+wx.onShow = function(callback){
+    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onShow和vivo小游戏的onShow手动修改")
+    qg.onShow(callback)
+}
 wx.onHide = qg.onHide
 wx.offShow = qg.offShow
 wx.offHide = qg.offHide
 wx.getLaunchOptionsSync = function(){
+    console.log("vivo小游戏不支持getLaunchOptionsSync，请确认是否需要手动修改")
     return {
         scene:0,
         query:{},
@@ -40,8 +42,10 @@ wx.getLaunchOptionsSync = function(){
         }
     }
 }
-wx.exitMiniProgram = qg.exitApplication // 微信中为异步,vivo中为同步
-
+wx.exitMiniProgram = function(data){
+    console.log("微信小游戏的exitMiniProgram和vivo小游戏的exitApplication稍有区别，请确认是否需要手动修改")
+    qg.exitApplication() // 微信中为异步,vivo中为同步
+}
 
 // 应用级事件
 wx.onError = qg.onError
@@ -49,7 +53,6 @@ wx.onAudioInterruptionBegin = qg.onAudioInterruptionBegin
 wx.onAudioInterruptionEnd = qg.onAudioInterruptionEnd
 wx.offAudioInterruptionBegin = qg.offAudioInterruptionBegin
 wx.offAudioInterruptionEnd = qg.offAudioInterruptionEnd
-
 
 // 触摸事件
 wx.onTouchStart = qg.onTouchStart
@@ -61,27 +64,22 @@ wx.offTouchMove = qg.offTouchMove
 wx.offTouchEnd = qg.offTouchEnd
 wx.offTouchCancel = qg.offTouchCancel
 
-
 // 性能
 wx.triggerGC = qg.triggerGC
 wx.getPerformance = qg.getPerformance
 
-
 // 分包加载
 wx.loadSubpackage = qg.loadSubpackage
-
 
 // 调试
 // setEnableDebug -- 暂不支持
 // getLogManager -- 暂不支持
-
 
 // 定时器
 // clearInterval
 // clearTimeout
 // setInterval
 // setTimeout
-
 
 // 渲染
 wx.createCanvas = qg.createCanvas
@@ -91,7 +89,8 @@ wx.setPreferredFramesPerSecond = qg.setPreferredFramesPerSecond
 // cancelAnimationFrame
 // requestAnimationFrame
 wx.loadFont = function(path){
-    return qg.loadFont('familyName', path) // 参数有区别 需要适配
+    console.log("微信小游戏的loadFont和vivo小游戏的loadFont稍有区别，请确认是否需要手动修改")
+    return qg.loadFont('vivofont', path) // 参数有区别 需要适配
 }
 wx.getTextLineHeight = qg.getTextLineHeight
 wx.createImage = qg.createImage
@@ -119,7 +118,7 @@ wx.createInterstitialAd = function(data){ // 参数有区别 需要适配
         }
     }
 }
-wx.createBannerAd =  function(){
+wx.createBannerAd =  function(data){
     if(data){
         return qg.createBannerAd({
             posId:data.adUnitId,
@@ -265,6 +264,7 @@ wx.setInnerAudioOption = noop
 wx.getAvailableAudioSources = noop
 wx.createInnerAudioContext = qg.createInnerAudioContext
 wx.saveImageToPhotosAlbum = function(data){
+    console.log("微信小游戏的saveImageToPhotosAlbum和vivo小游戏的saveImageToPhotosAlbum稍有区别，请确认是否需要手动修改")
     return qg.saveToPhotosAlbum({
         uri: data.filePath,
         success: data.success || noop,
