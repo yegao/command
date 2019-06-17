@@ -264,8 +264,8 @@ wx.setInnerAudioOption = noop
 wx.getAvailableAudioSources = noop
 wx.createInnerAudioContext = qg.createInnerAudioContext
 wx.saveImageToPhotosAlbum = function(data){
-    console.log("微信小游戏的saveImageToPhotosAlbum和vivo小游戏的saveImageToPhotosAlbum稍有区别，请确认是否需要手动修改")
-    return qg.saveToPhotosAlbum({
+    console.log("微信小游戏的saveImageToPhotosAlbum和vivo小游戏的saveToPhotoAlbum的success返回值稍有区别，请确认是否需要手动修改")
+    return qg.saveToPhotoAlbum({
         uri: data.filePath,
         success: data.success || noop,
         fail: data.fail || noop,
@@ -281,6 +281,7 @@ wx.previewImage = function(data){
     })
 }
 wx.chooseImage = function(data){
+    console.log("微信小游戏的chooseImage和vivo小游戏的takePhoto和pickImage稍有区别，请确认是否需要手动修改")
     const { sourceType } = data
     if(sourceType.length === 1 && sourceType[0] === 'camera') {
         return qg.takePhoto({

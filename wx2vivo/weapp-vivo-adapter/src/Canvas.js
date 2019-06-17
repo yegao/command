@@ -165,8 +165,10 @@ const renderTexCanvas = function () {
     gl.bindTexture(gl.TEXTURE_2D, texture2D);
 }
 let oldDrawImage = null
+let oldFill = null
 let oldFillRect = null
 let oldFillText = null
+let oldStroke = null
 let oldStrokeRect = null
 const canvas = window.mainCanvas || qg.createCanvas()
 const ctx = canvas.getContext('2d')
@@ -197,6 +199,15 @@ if(!oldDrawImage) {
     }
   }
 }
+if(!oldFill) {
+  if(oldFill = ctx.fill) {
+    ctx.constructor.prototype.fill = function(...args) {
+      oldFill.call(ctx,...args)
+      setTextureCanvas(canvas);
+      renderHandler()
+    }
+  }
+}
 if(!oldFillRect) {
   if(oldFillRect = ctx.fillRect) {
     ctx.constructor.prototype.fillRect = function(...args) {
@@ -215,6 +226,17 @@ if(!oldFillText) {
     }
   }
 }
+
+if(!oldStroke) {
+  if(oldStroke = ctx.stroke) {
+    ctx.constructor.prototype.stroke = function(...args) {
+      oldStroke.call(ctx,...args)
+      setTextureCanvas(canvas);
+      renderHandler()
+    }
+  }
+}
+
 if(!oldStrokeRect) {
   if(oldStrokeRect = ctx.strokeRect) {
     ctx.constructor.prototype.strokeRect = function(...args) {
