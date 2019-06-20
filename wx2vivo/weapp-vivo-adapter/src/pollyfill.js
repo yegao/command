@@ -1,52 +1,52 @@
 require("regenerator-runtime")
 window.wx = {
     env: {
-        USER_DATA_PATH:'internal://files'
+        USER_DATA_PATH: 'internal://files'
     }
 }
-const noop = function(){}
-const notSupport = function(name){
+const noop = function () {}
+const notSupport = function (name) {
     qg.showToast({
-        message:"暂时不支持"+name+"方法,请手动修改"
+        message: "暂时不支持" + name + "方法,请手动修改"
     })
-    console.log("暂时不支持"+name+"方法,请手动修改")
+    console.log("暂时不支持" + name + "方法,请手动修改")
 }
 // 系统
 wx.getSystemInfo = qg.getSystemInfo
 wx.getSystemInfoSync = qg.getSystemInfoSync
 wx.getLaunchOptionsSync = noop
 //更新
-wx.getUpdateManager = function(){
+wx.getUpdateManager = function () {
     return {
-        applyUpdate(){
+        applyUpdate() {
             qg.applyUpdate()
         },
-        onCheckForUpdate(){},
-        onUpdateFailed(){},
-        onUpdateReady(){}
+        onCheckForUpdate() {},
+        onUpdateFailed() {},
+        onUpdateReady() {}
     }
 }
 // 生命周期
-wx.onShow = function(callback){
+wx.onShow = function (callback) {
     console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onShow和vivo小游戏的onShow手动修改")
     qg.onShow(callback)
 }
 wx.onHide = qg.onHide
 wx.offShow = qg.offShow
 wx.offHide = qg.offHide
-wx.getLaunchOptionsSync = function(){
+wx.getLaunchOptionsSync = function () {
     console.log("vivo小游戏不支持getLaunchOptionsSync，请确认是否需要手动修改")
     return {
-        scene:0,
-        query:{},
-        shareTicket:"",
-        referrerInfo:{
-            appId:"",
-            extraData:{}
+        scene: 0,
+        query: {},
+        shareTicket: "",
+        referrerInfo: {
+            appId: "",
+            extraData: {}
         }
     }
 }
-wx.exitMiniProgram = function(data){
+wx.exitMiniProgram = function (data) {
     console.log("微信小游戏的exitMiniProgram和vivo小游戏的exitApplication稍有区别，请确认是否需要手动修改")
     qg.exitApplication() // 微信中为异步,vivo中为同步
 }
@@ -92,20 +92,19 @@ wx.createCanvas = qg.createCanvas
 wx.setPreferredFramesPerSecond = qg.setPreferredFramesPerSecond
 // cancelAnimationFrame
 // requestAnimationFrame
-wx.loadFont = function(path){
+wx.loadFont = function (path) {
     console.log("微信小游戏的loadFont和vivo小游戏的loadFont稍有区别，请确认是否需要手动修改")
     return qg.loadFont('vivofont', path) // 参数有区别 需要适配
 }
 wx.getTextLineHeight = qg.getTextLineHeight
 wx.createImage = qg.createImage
 wx.createRewardedVideoAd = noop // 暂不支持激励视频广告
-wx.createInterstitialAd = function(data){ // 参数有区别 需要适配
-    if(data){
+wx.createInterstitialAd = function (data) { // 参数有区别 需要适配
+    if (data) {
         return qg.createInterstitialAd({
-            posId:data.adUnitId
+            posId: data.adUnitId
         })
-    }
-    else {
+    } else {
         return {
             load: noop,
             show: noop,
@@ -122,14 +121,13 @@ wx.createInterstitialAd = function(data){ // 参数有区别 需要适配
         }
     }
 }
-wx.createBannerAd =  function(data){
-    if(data){
+wx.createBannerAd = function (data) {
+    if (data) {
         return qg.createBannerAd({
-            posId:data.adUnitId,
+            posId: data.adUnitId,
             style: data && data.style
         })
-    }
-    else {
+    } else {
         return {
             load: noop,
             show: noop,
@@ -148,28 +146,28 @@ wx.createBannerAd =  function(data){
 }
 
 //界面
-wx.showToast = function(data){
-    if(data){
+wx.showToast = function (data) {
+    if (data) {
         qg.showToast({
             message: data && data.title || '',
             duration: (1500 < data.duration) && 1 || 0
         })
-        if(data){
-            if(typeof data.success === 'function'){
+        if (data) {
+            if (typeof data.success === 'function') {
                 data.success()
             }
-            if(typeof data.complete === 'function'){
+            if (typeof data.complete === 'function') {
                 data.complete()
             }
         }
     }
 }
-wx.showModal = function(data){
+wx.showModal = function (data) {
     const buttons = [{
         text: data && data.confirmText || '确定',
         color: data && data.confirmColor || '#576B95'
     }]
-    if(data.showCancel){
+    if (data.showCancel) {
         buttons[1] = {
             text: data && data.cancelText || '取消',
             color: data && data.cancelColor || '#000000'
@@ -184,7 +182,7 @@ wx.showModal = function(data){
         complete: data && data.complete
     })
 }
-wx.showLoading = function(data){
+wx.showLoading = function (data) {
     qg.showLoading({
         message: data && data.title,
         success: data && data.success,
@@ -192,55 +190,59 @@ wx.showLoading = function(data){
         complete: data && data.complete
     })
 }
-wx.showActionSheet = function(){
+wx.showActionSheet = function () {
     notSupport("showActionSheet")
 }
-wx.hideToast = function(){
+wx.hideToast = function () {
     notSupport("hideToast")
 }
 wx.hideLoading = qg.hideLoading
-wx.updateKeyboard = function(){
+wx.updateKeyboard = function () {
     notSupport("updateKeyboard")
 }
-wx.showKeyboard = qg.showKeyboard  // qg.showKeyboard会使得canvas的点击事件无法被触发（可能是有则该层）
+wx.showKeyboard = qg.showKeyboard // qg.showKeyboard会使得canvas的点击事件无法被触发（可能是有则该层）
 wx.onKeyboardInput = qg.onKeyboardInput
 wx.onKeyboardConfirm = qg.onKeyboardConfirm
 wx.onKeyboardComplete = qg.onKeyboardComplete
 wx.offKeyboardInput = qg.offKeyboardInput
 wx.offKeyboardConfirm = qg.offKeyboardConfirm
 wx.offKeyboardComplete = qg.offKeyboardComplete
-wx.hideKeyboard = function(data){
+wx.hideKeyboard = function (data) {
     qg.hideKeyboard();
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success({errMsg: "hideKeyboard:ok"})
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({
+                errMsg: "hideKeyboard:ok"
+            })
         }
-        if(typeof data.complete === 'function'){
-            data.complete({errMsg: "hideKeyboard:ok"})
+        if (typeof data.complete === 'function') {
+            data.complete({
+                errMsg: "hideKeyboard:ok"
+            })
         }
     }
 }
-wx.setMenuStyle = function(){
+wx.setMenuStyle = function () {
     notSupport("setMenuStyle")
 }
-wx.getMenuButtonBoundingClientRect = function(){
+wx.getMenuButtonBoundingClientRect = function () {
     notSupport("getMenuButtonBoundingClientRect")
 }
-wx.setStatusBarStyle = function(){
+wx.setStatusBarStyle = function () {
     notSupport("setStatusBarStyle")
 }
-wx.onWindowResize = function(){
+wx.onWindowResize = function () {
     notSupport("onWindowResize")
 } // 需要适配
-wx.offWindowResize = function(){
+wx.offWindowResize = function () {
     notSupport("offWindowResize")
 } // 需要适配
 
 
 // 网络
 wx.request = qg.request
-wx.downloadFile = function(data){
-    if(data.filePath){
+wx.downloadFile = function (data) {
+    if (data.filePath) {
         console.log("wx.downloadFile参数中的filePath字段将被忽略，请确认是否会有影响")
     }
     return qg.download({
@@ -251,11 +253,11 @@ wx.downloadFile = function(data){
         complete: data && data.complete || noop
     })
 }
-wx.uploadFile = function(data){
+wx.uploadFile = function (data) {
     return qg.uploadFile({
-        url:data.url,
-        files:[data.filePath],
-        method:'POST',
+        url: data.url,
+        files: [data.filePath],
+        method: 'POST',
         data: data && data.formData,
         header: data && data.header,
         success: data && data.success || noop,
@@ -264,32 +266,32 @@ wx.uploadFile = function(data){
     })
 }
 
-wx.createUDPSocket = function(){
+wx.createUDPSocket = function () {
     notSupport("createUDPSocket")
 }
-wx.updateShareMenu = function(){
+wx.updateShareMenu = function () {
     notSupport("updateShareMenu")
 }
-wx.showShareMenu = function(){
+wx.showShareMenu = function () {
     notSupport("showShareMenu")
 }
-wx.shareAppMessage = function(){
+wx.shareAppMessage = function () {
     notSupport("shareAppMessage")
 }
-wx.onShareAppMessage = function(){
+wx.onShareAppMessage = function () {
     notSupport("onShareAppMessage")
 }
-wx.offShareAppMessage = function(){
+wx.offShareAppMessage = function () {
     notSupport("offShareAppMessage")
 }
-wx.hideShareMenu = function(){
+wx.hideShareMenu = function () {
     notSupport("hideShareMenu")
 }
-wx.getShareInfo = function(){
+wx.getShareInfo = function () {
     notSupport("getShareInfo")
 }
 
-wx.requestMidasPayment = function(data){ // -- 不好适配
+wx.requestMidasPayment = function (data) { // -- 不好适配
     console.log("支付信息请手动适配")
     // qg.pay({
     //     orderInfo:"",	// 订单信息。支付服务器返回的订单json字符串
@@ -304,7 +306,7 @@ wx.requestMidasPayment = function(data){ // -- 不好适配
 wx.setInnerAudioOption = noop
 wx.getAvailableAudioSources = noop
 wx.createInnerAudioContext = qg.createInnerAudioContext
-wx.saveImageToPhotosAlbum = function(data){
+wx.saveImageToPhotosAlbum = function (data) {
     console.log("微信小游戏的saveImageToPhotosAlbum和vivo小游戏的saveToPhotoAlbum的success返回值稍有区别，请确认是否需要手动修改")
     return qg.saveToPhotoAlbum({
         uri: data && data.filePath,
@@ -313,25 +315,26 @@ wx.saveImageToPhotosAlbum = function(data){
         complete: data && data.complete || noop
     })
 }
-wx.previewImage = function(data){
+wx.previewImage = function (data) {
     return qg.previewImage({
-        uris:data.urls,
+        uris: data.urls,
         success: data && data.success || noop,
         fail: data && data.fail || noop,
         complete: data && data.complete || noop
     })
 }
-wx.chooseImage = function(data){
+wx.chooseImage = function (data) {
     console.log("微信小游戏的chooseImage和vivo小游戏的takePhoto和pickImage稍有区别，请确认是否需要手动修改")
-    const { sourceType } = data
-    if(sourceType.length === 1 && sourceType[0] === 'camera') {
+    const {
+        sourceType
+    } = data
+    if (sourceType.length === 1 && sourceType[0] === 'camera') {
         return qg.takePhoto({
             success: data && data.success || noop,
             fail: data && data.fail || noop,
             complete: data && data.complete || noop
         })
-    }
-    else {
+    } else {
         return qg.pickImage({
             success: data && data.success || noop,
             fail: data && data.fail || noop,
@@ -339,7 +342,7 @@ wx.chooseImage = function(data){
         })
     }
 }
-wx.getRecorderManager = function(){
+wx.getRecorderManager = function () {
     let onStartHandler = noop
     let onStopHandler = noop
     let tempFilePath = ''
@@ -350,31 +353,33 @@ wx.getRecorderManager = function(){
         onInterruptionEnd: noop,
         onPause: noop,
         onResume: noop,
-        onStart: function(callback){
+        onStart: function (callback) {
             onStartHandler = callback.bind(this)
         },
-        onStop: function(callback){
+        onStop: function (callback) {
             onStopHandler = callback.bind(this)
         },
         pause: noop,
         resume: noop,
-        start: function(){
+        start: function () {
             qg.startRecord({
-                success: function(data){
+                success: function (data) {
                     tempFilePath = data.uri
-                    onStartHandler()    // @TODO 需要确认微信中这里是否有参数
+                    onStartHandler() // @TODO 需要确认微信中这里是否有参数
                 },
                 fail: noop,
                 complete: noop
             })
         },
-        stop: function(){
+        stop: function () {
             qg.stopRecord()
-            onStopHandler({ tempFilePath }) // duration, fileSize 无法适配
+            onStopHandler({
+                tempFilePath
+            }) // duration, fileSize 无法适配
         }
     }
 }
-wx.createVideo = function() {
+wx.createVideo = function () {
     return {
         destroy: noop,
         exitFullScreen: noop,
@@ -407,25 +412,29 @@ wx.getLocation = qg.getLocation // 参数略有差别，但不影响兼容
 
 
 // 文件
-wx.getFileSystemManager = qg.getFileSystemManager = function(){
+wx.getFileSystemManager = qg.getFileSystemManager = function () {
     return {
-        access(data){
-            return function(){
-                qg.accessFile({ uri: data && data.path })
-                if(data){
-                    if(typeof data.success === 'function'){
-                        data.success()  // @TODO 需要确认微信中这里是否有参数
+        access(data) {
+            return function () {
+                qg.accessFile({
+                    uri: data && data.path
+                })
+                if (data) {
+                    if (typeof data.success === 'function') {
+                        data.success() // @TODO 需要确认微信中这里是否有参数
                     }
-                    if(typeof data.complete === 'function'){
-                        data.complete()  // @TODO 需要确认微信中这里是否有参数
+                    if (typeof data.complete === 'function') {
+                        data.complete() // @TODO 需要确认微信中这里是否有参数
                     }
                 }
             }
         },
-        accessSync: function(path){
-            return qg.accessFile({ uri: path })
+        accessSync: function (path) {
+            return qg.accessFile({
+                uri: path
+            })
         },
-        appendFile(data){
+        appendFile(data) {
             return qg.appendFile({
                 uri: data && data.filePath,
                 text: data && data.data,
@@ -435,22 +444,22 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data && data.complete || noop
             })
         },
-        appendFileSync: async function(filePath, data, encoding){
-            return await new Promise(function(resolve,reject){
+        appendFileSync: async function (filePath, data, encoding) {
+            return await new Promise(function (resolve, reject) {
                 qg.appendFile({
                     uri: filePath,
                     text: data,
                     encoding: encoding || 'utf8',
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        copyFile(data){
+        copyFile(data) {
             return qg.copyFile({
                 srcUri: data && data.srcPath,
                 dstUri: data && data.destPath,
@@ -459,21 +468,21 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data && data.complete || noop
             })
         },
-        copyFileSync:async function(srcPath, destPath) {
-            return await new Promise(function(resolve,reject){
+        copyFileSync: async function (srcPath, destPath) {
+            return await new Promise(function (resolve, reject) {
                 qg.copyFile({
                     srcUri: srcPath,
                     dstUri: destPath,
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        getFileInfo(data){
+        getFileInfo(data) {
             return qg.getFileInfo({
                 uri: data && data.filePath,
                 success: data && data.success || noop,
@@ -481,15 +490,15 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data && data.complete || noop
             })
         },
-        getSavedFileList(data){
+        getSavedFileList(data) {
             return qg.listDir({
-                uri:"internal://cache/", // @TODO 需要确认这样是否正确
-                success: data && data.success || noop,
-                fail: data && data.fail || noop,
-                complete: data && data.complete || noop
+                uri: "internal://cache/", // @TODO 需要确认这样是否正确
+                success: data.success || noop,
+                fail: data.fail || noop,
+                complete: data.complete || noop
             })
         },
-        mkdir(data){
+        mkdir(data) {
             return qg.mkdir({
                 uri: data && data.dirPath, // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归创建文件夹，是否需要适配
                 success: data && data.success || noop,
@@ -497,35 +506,35 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data && data.complete || noop
             })
         },
-        mkdirSync:async function(dirPath, recursive) { // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归创建文件夹，是否需要适配
-            return await new Promise(function(resolve,reject){
+        mkdirSync: async function (dirPath, recursive) { // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归创建文件夹，是否需要适配
+            return await new Promise(function (resolve, reject) {
                 qg.mkdir({
                     uri: dirPath,
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        readdir: function(){
+        readdir: function () {
             notSupport("readdir")
         },
-        readdirSync: function(){
+        readdirSync: function () {
             notSupport("readdirSync")
         },
-        readFile(data){
+        readFile(data) {
             let param = {
-                errMsg:"readFile:fail #" + data.filePath
+                errMsg: "readFile:fail #" + data.filePath
             }
             return qg.readFile({
                 uri: data.filePath, // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归创建文件夹，是否需要适配
                 encoding: data.encoding || 'binary',
-                success: function(res){
-                    if(data.success){
-                        if(res && res.hasOwnProperty('text')){
+                success: function (res) {
+                    if (data.success) {
+                        if (res && res.hasOwnProperty('text')) {
                             param = {
                                 data: res.text,
                                 errMsg: "readFile:ok"
@@ -534,21 +543,21 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                         }
                     }
                 },
-                fail: function(){
+                fail: function () {
                     data.fail && data.fail(param)
                 },
-                complete: function(){
+                complete: function () {
                     data.complete && data.complete(param)
                 }
             })
         },
-        readFileSync:function(filePath, encoding){
+        readFileSync: function (filePath, encoding) {
             return qg.readFileSync({
                 uri: filePath,
                 encoding: encoding || 'binary'
             })
         },
-        removeSavedFile(data){
+        removeSavedFile(data) {
             return qg.deleteFile({
                 uri: data.filePath,
                 success: data.success || noop,
@@ -556,126 +565,110 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data.complete || noop
             })
         },
-        rename(data){
+        rename(data) {
             let param = {
-                errMsg:"rename:fail #" + data.oldPath + "->" + data.newPath
+                errMsg: "rename:fail #" + data.oldPath + "->" + data.newPath
             }
             return qg.renameFile({
                 srcUri: data.oldPath,
                 dstUri: data.newPath,
-                success: function(res){
+                success: function (res) {
                     param = {
-                        errMsg:"rename:ok"
+                        errMsg: "rename:ok"
                     }
                     data.success && data.success(param)
                 },
-                fail: function(){
+                fail: function () {
                     data.fail && data.fail(param)
                 },
-                complete: function(){
+                complete: function () {
                     data.complete && data.complete(param)
                 }
             })
         },
-        renameSync:async function(oldPath, newPath) {
-            return await new Promise(function(resolve,reject){
+        renameSync: async function (oldPath, newPath) {
+            return await new Promise(function (resolve, reject) {
                 qg.renameFile({
                     srcUri: oldPath,
                     dstUri: newPath,
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        rmdir(data){ // vivo的rmdir本身就是递归删除的
-            let param = {
-                errMsg:"rmdir:fail #" + data.dirPath
-            }
-            const recursive = data.recursive
-            if(recursive){
+        rmdir(data) { // vivo的rmdir本身就是递归删除的
+            const remove = function (param) {
                 qg.rmdir({
                     uri: data.dirPath,
-                    success(){
+                    success() {
                         param = {
-                            errMsg:"rmdir:ok"
+                            errMsg: "rmdir:ok"
                         };
                         data.success && data.success(param)
                     },
-                    fail(){
+                    fail() {
                         data.fail && data.fail(param)
                     },
-                    complete(){
+                    complete() {
                         data.complete && data.complete(param)
                     }
                 })
             }
-            else{
-                const isDirectory = qg.isDirectory({ uri: data.dirPath })
-                if(isDirectory){
-                    console.log("是文件夹")
+            const recursive = data.recursive
+            if (recursive) {
+                remove({
+                    errMsg: "rmdir:fail #" + data.dirPath
+                })
+            } else {
+                const isDirectory = qg.isDirectory({
+                    uri: data.dirPath
+                })
+                if (isDirectory) {
                     qg.listDir({
                         uri: data.dirPath,
-                        success(res){
-                            console.log("列出文件夹成功")
-                            console.log(JSON.stringify(res))
+                        success(res) {
                             const fileList = res.fileList
                             const length = fileList.length
-                            console.log("长度为"+length)
-                            if(0 < length){
+                            if (0 < length) {
                                 data.fail && data.fail(param)
-                            }
-                            else{
-                                qg.rmdir({
-                                    uri: data.dirPath,
-                                    success(){
-                                        param = {
-                                            errMsg:"rmdir:ok"
-                                        };
-                                        data.success && data.success(param)
-                                    },
-                                    fail(){
-                                        data.fail && data.fail({
-                                            errMsg:"rmdir:fail #" + data.dirPath + " is not empty"
-                                        })
-                                    },
-                                    complete(){
-                                        data.complete && data.complete(param)
-                                    }
+                            } else {
+                                remove({
+                                    errMsg: "rmdir:fail #" + data.dirPath + " is not empty"
                                 })
                             }
                         },
-                        fail(res){
-                            console.log("列出文件夹失败")
-                            console.log(JSON.stringify(res))
+                        fail() {
+                            // 如果是空文件夹，qg.listDir会在fail里面回调"io error",此处已经提出修改意见
+                            remove({
+                                errMsg: "rmdir:fail"
+                            })
                         }
                     })
-                }
-                else if(data.fail){
-                    console.log("不是文件夹")
+                } else if (data.fail) {
                     data.fail({
-                        errMsg:"rmdir:fail #" + data.dirPath + " is not a directory"
+                        errMsg: "rmdir:fail #" + data.dirPath + " is not a directory"
                     })
                 }
             }
         },
-        rmdirSync:async function(dirPath, recursive) { // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归删除文件夹，是否需要适配
-            return await new Promise(function(resolve,reject){
+        rmdirSync: async function (dirPath, recursive) { // @TODO 需要确认这样是否正确 微信支持通过传递recursive来递归删除文件夹，是否需要适配
+            return await new Promise(function (resolve, reject) {
                 qg.rmdir({
                     uri: dirPath,
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        saveFile(data){
+        saveFile(data) {
             return qg.moveFile({
                 srcUri: data && data.tempFilePath,
                 dstUri: data && data.filePath,
@@ -684,31 +677,31 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data && data.complete || noop
             })
         },
-        saveFileSync:async function(tempFilePath, filePath) {
-            return await new Promise(function(resolve,reject){
+        saveFileSync: async function (tempFilePath, filePath) {
+            return await new Promise(function (resolve, reject) {
                 qg.moveFile({
                     srcUri: tempFilePath,
                     dstUri: filePath,
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        stat(data){ // @TODO 需要确认这样是否正确 微信支持传递recursive,此时返回有点区别
+        stat(data) { // @TODO 需要确认这样是否正确 微信支持传递recursive,此时返回有点区别
             const successHandler = data.success;
             const completeHandler = data.complete;
             successHandler && successHandler({
                 stats: {
-                    isDirectory(){
+                    isDirectory() {
                         return qg.isDirectory({
                             uri: data && data.path
                         })
                     },
-                    isFile(){
+                    isFile() {
                         return qg.isFile({
                             uri: data && data.path
                         })
@@ -717,54 +710,54 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
             })
             completeHandler && completeHandler()
         },
-        statSync: function(path, recursive){ // @TODO 需要确认这样是否正确 微信支持传递recursive,此时返回有点区别
+        statSync: function (path, recursive) { // @TODO 需要确认这样是否正确 微信支持传递recursive,此时返回有点区别
             return {
-                isDirectory(){
+                isDirectory() {
                     return qg.isDirectory({
                         uri: path
                     })
                 },
-                isFile(){
+                isFile() {
                     return qg.isFile({
                         uri: path
                     })
                 }
             }
         },
-        unlink(data){
+        unlink(data) {
             let param = {
-                errMsg:"unlink:fail #" + data.filePath
+                errMsg: "unlink:fail #" + data.filePath
             }
             return qg.deleteFile({
                 uri: data.filePath,
-                success: function(){
+                success: function () {
                     param = {
-                        errMsg:"unlink:ok"
+                        errMsg: "unlink:ok"
                     };
                     data.success && data.success(param)
                 },
-                fail: function(){
+                fail: function () {
                     data.fail && data.fail(param)
                 },
-                complete: function(){
+                complete: function () {
                     data.complete && data.complete(param)
                 }
             })
         },
-        unlinkSync: async function(filePath) {
-            return await new Promise(function(resolve,reject){
+        unlinkSync: async function (filePath) {
+            return await new Promise(function (resolve, reject) {
                 qg.deleteFile({
                     uri: filePath,
-                    success(data){
+                    success(data) {
                         resolve(data)
                     },
-                    fail(data){
+                    fail(data) {
                         reject(data)
                     }
                 })
             })
         },
-        unzip(data){
+        unzip(data) {
             return qg.unzipFile({
                 srcUri: data.zipFilePath,
                 dstUri: data.targetPath,
@@ -773,29 +766,29 @@ wx.getFileSystemManager = qg.getFileSystemManager = function(){
                 complete: data.complete || noop
             })
         },
-        writeFile(data){
+        writeFile(data) {
             let param = {
-                errMsg:"writeFile:fail #" + data.filePath
+                errMsg: "writeFile:fail #" + data.filePath
             }
             return qg.writeFile({
                 uri: data.filePath,
                 text: data.data,
                 encoding: data.encoding || 'utf8',
-                success: function(){
+                success: function () {
                     param = {
-                        errMsg:"writeFile:ok"
+                        errMsg: "writeFile:ok"
                     };
                     data.success && data.success(param)
                 },
-                fail: function(){
+                fail: function () {
                     data.fail && data.fail(param)
                 },
-                complete: function(){
+                complete: function () {
                     data.complete && data.complete(param)
                 }
             })
         },
-        writeFileSync:function(filePath, data, encoding){
+        writeFileSync: function (filePath, data, encoding) {
             return qg.writeFileSync({
                 uri: filePath,
                 text: data,
@@ -834,11 +827,11 @@ wx.navigateToMiniProgram = noop
 //     }
 // })
 
-wx.getUserInfo = function(data){ // 不好适配
+wx.getUserInfo = function (data) { // 不好适配
     qg.showToast({
-        message:"无法自动适配wx.getUserInfo,请使用qg.getProfile进行适配"
+        message: "无法自动适配wx.getUserInfo,请使用qg.getProfile进行适配"
     })
-    console.log("无法自动适配wx.createUserInfoButton,请使用qg.authorize和qg.getProfile进行适配,具体请参考https://minigame.vivo.com.cn/documents/#/api/service/account")    // console.log("获取用户信息请手动适配")
+    console.log("无法自动适配wx.createUserInfoButton,请使用qg.authorize和qg.getProfile进行适配,具体请参考https://minigame.vivo.com.cn/documents/#/api/service/account") // console.log("获取用户信息请手动适配")
     // return qg.getProfile({
     //     token: data && data.token,
     //     success: data && data.success || noop,
@@ -847,26 +840,26 @@ wx.getUserInfo = function(data){ // 不好适配
     // })
 }
 
-wx.createUserInfoButton = function(){
+wx.createUserInfoButton = function () {
     qg.showToast({
-        message:"无法自动适配wx.createUserInfoButton,请使用qg.authorize和qg.getProfile进行适配"
+        message: "无法自动适配wx.createUserInfoButton,请使用qg.authorize和qg.getProfile进行适配"
     })
     console.log("无法自动适配wx.createUserInfoButton,请使用qg.authorize和qg.getProfile进行适配,具体请参考https://minigame.vivo.com.cn/documents/#/api/service/account")
     return {
-        destroy(){},
-        hide(){},
-        offTap(){},
-        onTap(){},
-        show(){}
+        destroy() {},
+        hide() {},
+        offTap() {},
+        onTap() {},
+        show() {}
     }
 }
-wx.checkSession = function(){
+wx.checkSession = function () {
     notSupport("checkSession")
 }
 
-wx.authorize = function(data){ // 不好适配
+wx.authorize = function (data) { // 不好适配
     qg.showToast({
-        message:"无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配"
+        message: "无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配"
     })
     console.log("无法自动适配wx.authorize,请使用qg.authorize和qg.getProfile进行适配,具体请参考https://minigame.vivo.com.cn/documents/#/api/service/account")
     // return qg.authorize({
@@ -882,128 +875,192 @@ wx.authorize = function(data){ // 不好适配
 
 
 // 开放数据域
-wx.setUserCloudStorage = function(){
+wx.setUserCloudStorage = function () {
     notSupport("setUserCloudStorage")
 }
-wx.removeUserCloudStorage = function(){
+wx.removeUserCloudStorage = function () {
     notSupport("removeUserCloudStorage")
 }
-wx.getUserCloudStorage = function(){
+wx.getUserCloudStorage = function () {
     notSupport("getUserCloudStorage")
 }
-wx.getSharedCanvas = function(){
+wx.getSharedCanvas = function () {
     notSupport("getSharedCanvas")
 }
-wx.getGroupCloudStorage = function(){
+wx.getGroupCloudStorage = function () {
     notSupport("getGroupCloudStorage")
 }
-wx.getFriendCloudStorage = function(){
+wx.getFriendCloudStorage = function () {
     notSupport("getFriendCloudStorage")
 }
-wx.onMessage = function(){
+wx.onMessage = function () {
     notSupport("onMessage")
 }
-wx.getOpenDataContext = function(){
+wx.getOpenDataContext = function () {
     notSupport("getOpenDataContext")
 }
 
 // 防沉迷
-wx.checkIsUserAdvisedToRest = function(){
+wx.checkIsUserAdvisedToRest = function () {
     notSupport("checkIsUserAdvisedToRest")
 }
 
 // 意见反馈
-wx.createFeedbackButton = function(){
+wx.createFeedbackButton = function () {
     notSupport("createFeedbackButton")
 }
 
 // 设置
-wx.openSetting = function(){
+wx.openSetting = function () {
     notSupport("openSetting")
 }
-wx.getSetting = function(){
+wx.getSetting = function () {
     notSupport("getSetting")
 }
-wx.createOpenSettingButton = function(){
+wx.createOpenSettingButton = function () {
     notSupport("createOpenSettingButton")
 }
 
 // 游戏圈
-wx.createGameClubButton = function(){
+wx.createGameClubButton = function () {
     notSupport("createGameClubButton")
 }
 
 // 客服消息
-wx.openCustomerServiceConversation = function(){
+wx.openCustomerServiceConversation = function () {
     notSupport("openCustomerServiceConversation")
 }
 
 // 微信运动
-wx.getWeRunData = function(){
+wx.getWeRunData = function () {
     notSupport("getWeRunData")
 }
 
 // 卡卷
-wx.openCard = function(){
+wx.openCard = function () {
     notSupport("openCard")
 }
-wx.addCard = function(){
+wx.addCard = function () {
     notSupport("addCard")
 }
 
 // 设备
 // 震动
-wx.vibrateLong = function(data){
+wx.vibrateLong = function (data) {
     qg.vibrateLong()
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success()
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({errMsg: "vibrateLong:ok"})
         }
-        if(typeof data.complete === 'function'){
-            data.complete()
+        if (typeof data.complete === 'function') {
+            data.complete({errMsg: "vibrateLong:ok"})
         }
     }
 }
-wx.vibrateShort = function(data){
+wx.vibrateShort = function (data) {
     qg.vibrateShort()
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success()
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({errMsg: "vibrateShort:ok"})
         }
-        if(typeof data.complete === 'function'){
-            data.complete()
+        if (typeof data.complete === 'function') {
+            data.complete({errMsg: "vibrateShort:ok"})
         }
     }
 }
 // 电量
-wx.getBatteryInfoSync = qg.getBatteryInfoSync
-wx.getBatteryInfo = qg.getBatteryInfo
-// 剪贴板
-wx.setClipboardData = function(data){
-    return qg.setClipboardData({
-        text:data.data,
-        success:data.success,
-        fail:data.fail,
-        complete:data.complete
+wx.getBatteryInfoSync = function(){
+    const info = qg.getBatteryInfoSync()
+    return {
+        isCharging: info.charging,
+        level: info.level*100,
+        errMsg: "getBatteryInfoSync:ok"
+    }
+}
+wx.getBatteryInfo = function(data){
+    let param = {
+        errMsg: "getBatteryInfo:fail"
+    }
+    qg.getBatteryInfo({
+        success(res){
+            param = {
+                isCharging: res.charging,
+                level: res.level*100,
+                errMsg: "getBatteryInfoSync:ok"
+            }
+            data && data.success && data.success(param)
+        },
+        fail(){
+            data && data.fail && data.fail(param)
+        }, 
+        complete(){
+            data && data.complete && data.complete(param)
+        }
     })
 }
-wx.getClipboardData = function(data){
-    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的getClipboardData和vivo小游戏的getClipboardData手动修改")
-    qg.getClipboardData(data)
+// 剪贴板
+wx.setClipboardData = function (data) {
+    return qg.setClipboardData({
+        text: data.data,
+        success: data.success,
+        fail: data.fail,
+        complete: data.complete
+    })
+}
+wx.getClipboardData = function (data) {
+    let param = {
+        errMsg: "getClipboardData:fail"
+    }
+    qg.getClipboardData({
+        success(res){
+            param = {
+                data: res.text,
+                errMsg: "getClipboardData:ok"
+            }
+            data && data.success && data.success(param)
+        },
+        fail(){
+            data && data.fail && data.fail(param)
+        },
+        complete(){
+            data && data.complete && data.complete(param)
+        }
+    })
 }
 //网络
-wx.onNetworkStatusChange = function(callback){
-    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onNetworkStatusChange和vivo小游戏的subscribeNetworkStatus手动修改")
+wx.onNetworkStatusChange = function (callback) {
     return qg.subscribeNetworkStatus({
-        callback
+        callback(res) {
+            callback && callback({
+                isConnected: (res.type != "none"),
+                networkType: res.type
+            })
+        }
     })
 }
-wx.getNetworkType = function(data){
-    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的getNetworkType和vivo小游戏的getNetworkType手动修改")
-    return qg.getNetworkType(data)
+wx.getNetworkType = function (data) {
+    let param = {
+        errMsg: "getNetworkType:fail"
+    }
+    qg.getNetworkType({
+        success(res){
+            param = {
+                networkType: res.type,
+                errMsg: "getNetworkType:ok"
+            }
+            data && data.success && data.success(param)
+        },
+        fail(){
+            data && data.fail && data.fail(param)
+        },
+        complete(){
+            data && data.complete && data.complete(param)
+        }
+    })
 }
 // 屏幕
-wx.setScreenBrightness = function(data){
+wx.setScreenBrightness = function (data) {
+    // 亮度范围微信是0-1，vivo是0-255
     qg.setScreenBrightness({
         value: data && parseInt(data.value * 255),
         success: data && data.success || noop,
@@ -1011,99 +1068,131 @@ wx.setScreenBrightness = function(data){
         complete: data && data.complete || noop
     })
 }
-wx.getScreenBrightness = function(data){
-    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的getScreenBrightness和vivo小游戏的getScreenBrightness手动修改")
-    return qg.getScreenBrightness(data)
+wx.getScreenBrightness = function (data) {
+    let param = {
+        errMsg: "getScreenBrightness:fail"
+    }
+    qg.getScreenBrightness({
+        success(res){
+            param = {
+                value: res.value/255,
+                errMsg: "getScreenBrightness:ok"
+            }
+            data && data.success && data.success(param)
+        },
+        fail(){
+            data && data.fail && data.fail(param)
+        },
+        complete(){
+            data && data.complete && data.complete(param)
+        }
+    })
 }
 wx.setKeepScreenOn = qg.setKeepScreenOn
 // 转屏
-wx.onDeviceOrientationChange = function(){
+wx.onDeviceOrientationChange = function () {
     notSupport("onDeviceOrientationChange")
 }
-wx.offDeviceOrientationChange = function(){
+wx.offDeviceOrientationChange = function () {
     notSupport("onDeviceOrientationChange")
 }
 // 加速计
-wx.startAccelerometer = function(data){
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success({errMsg: "startAccelerometer:ok"})
+wx.startAccelerometer = function (data) {
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({
+                errMsg: "startAccelerometer:ok"
+            })
         }
-        if(typeof data.complete === 'function'){
-            data.complete({errMsg: "startAccelerometer:ok"})
+        if (typeof data.complete === 'function') {
+            data.complete({
+                errMsg: "startAccelerometer:ok"
+            })
         }
     }
 }
-wx.onAccelerometerChange = function(callback){
+wx.onAccelerometerChange = function (callback) {
     qg.subscribeAccelerometer({
         callback
     })
 }
-wx.stopAccelerometer = function(data){
+wx.stopAccelerometer = function (data) {
     qg.unsubscribeAccelerometer()
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success({errMsg: "stopAccelerometer:ok"})
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({
+                errMsg: "stopAccelerometer:ok"
+            })
         }
-        if(typeof data.complete === 'function'){
-            data.complete({errMsg: "stopAccelerometer:ok"})
+        if (typeof data.complete === 'function') {
+            data.complete({
+                errMsg: "stopAccelerometer:ok"
+            })
         }
     }
 }
 // 罗盘
-wx.startCompass = function(data){
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success({errMsg: "startCompass:ok"})
+wx.startCompass = function (data) {
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({
+                errMsg: "startCompass:ok"
+            })
         }
-        if(typeof data.complete === 'function'){
-            data.complete({errMsg: "startCompass:ok"})
+        if (typeof data.complete === 'function') {
+            data.complete({
+                errMsg: "startCompass:ok"
+            })
         }
     }
 }
-wx.onCompassChange = function(callback){
+wx.onCompassChange = function (callback) {
     console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onCompassChange和vivo小游戏的subscribeCompass手动修改")
     qg.subscribeCompass({
         callback
     })
 }
-wx.stopCompass = function(data){
+wx.stopCompass = function (data) {
     qg.unsubscribeCompass()
-    if(data){
-        if(typeof data.success === 'function'){
-            data.success({errMsg: "stopCompass:ok"})
+    if (data) {
+        if (typeof data.success === 'function') {
+            data.success({
+                errMsg: "stopCompass:ok"
+            })
         }
-        if(typeof data.complete === 'function'){
-            data.complete({errMsg: "stopCompass:ok"})
+        if (typeof data.complete === 'function') {
+            data.complete({
+                errMsg: "stopCompass:ok"
+            })
         }
     }
 }
 // 设备方向
-wx.startDeviceMotionListening = function(){
+wx.startDeviceMotionListening = function () {
     notSupport("startDeviceMotionListening")
 }
-wx.stopDeviceMotionListening = function(){
+wx.stopDeviceMotionListening = function () {
     notSupport("stopDeviceMotionListening")
 }
-wx.onDeviceMotionChange = function(){
+wx.onDeviceMotionChange = function () {
     notSupport("onDeviceMotionChange")
 }
-wx.startGyroscope = function(){
+wx.startGyroscope = function () {
     notSupport("startGyroscope")
 }
-wx.stopGyroscope = function(){
+wx.stopGyroscope = function () {
     notSupport("stopGyroscope")
 }
-wx.onGyroscopeChange = function(){
+wx.onGyroscopeChange = function () {
     notSupport("onGyroscopeChange")
 }
 // 性能
-wx.onMemoryWarning = function(){
+wx.onMemoryWarning = function () {
     notSupport("onMemoryWarning")
 }
 
 
 // Worker
-wx.createWorker = function(){
+wx.createWorker = function () {
     notSupport("createWorker")
 }

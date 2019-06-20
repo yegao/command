@@ -174,7 +174,8 @@ const canvas = window.mainCanvas || qg.createCanvas()
 const ctx = canvas.getContext('2d')
 let info = qg.getSystemInfoSync()
 const {screenWidth,screenHeight} = info
-ctx.scale(screenWidth/375, screenHeight/667)
+// ctx.scale(screenWidth/375, screenHeight/667)
+ctx._setTransform(screenWidth/375,0,0,screenHeight/667,0,0)
 const oldGetContext = canvas.getContext;
 canvas.getContext = function(arg) {
   if(arg === '2d') {
