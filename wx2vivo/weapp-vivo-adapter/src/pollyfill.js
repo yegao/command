@@ -303,8 +303,12 @@ wx.requestMidasPayment = function (data) { // -- 不好适配
 
 
 // 媒体
-wx.setInnerAudioOption = noop
-wx.getAvailableAudioSources = noop
+wx.setInnerAudioOption = function () {
+    notSupport("setInnerAudioOption")
+}
+wx.getAvailableAudioSources = function () {
+    notSupport("getAvailableAudioSources")
+}
 wx.createInnerAudioContext = qg.createInnerAudioContext
 wx.saveImageToPhotosAlbum = function (data) {
     console.log("微信小游戏的saveImageToPhotosAlbum和vivo小游戏的saveToPhotoAlbum的success返回值稍有区别，请确认是否需要手动修改")
@@ -402,12 +406,24 @@ wx.createVideo = function () {
         stop: noop
     }
 }
-wx.updateVoIPChatMuteConfig = noop
-wx.onVoIPChatSpeakersChanged = noop
-wx.onVoIPChatMembersChanged = noop
-wx.onVoIPChatInterrupted = noop
-wx.joinVoIPChat = noop
-wx.exitVoIPChat = noop
+wx.updateVoIPChatMuteConfig = function () {
+    notSupport("updateVoIPChatMuteConfig")
+}
+wx.onVoIPChatSpeakersChanged = function () {
+    notSupport("onVoIPChatSpeakersChanged")
+}
+wx.onVoIPChatMembersChanged = function () {
+    notSupport("onVoIPChatMembersChanged")
+}
+wx.onVoIPChatInterrupted = function () {
+    notSupport("onVoIPChatInterrupted")
+}
+wx.joinVoIPChat = function () {
+    notSupport("joinVoIPChat")
+}
+wx.exitVoIPChat = function () {
+    notSupport("exitVoIPChat")
+}
 wx.getLocation = qg.getLocation // 参数略有差别，但不影响兼容
 
 
@@ -1146,8 +1162,7 @@ wx.startCompass = function (data) {
         }
     }
 }
-wx.onCompassChange = function (callback) {
-    console.log("回调函数的参数暂时无法适配，请对比微信小游戏的onCompassChange和vivo小游戏的subscribeCompass手动修改")
+wx.onCompassChange = function (callback) { // vivo小游戏没有accuracy，暂时忽略
     qg.subscribeCompass({
         callback
     })
