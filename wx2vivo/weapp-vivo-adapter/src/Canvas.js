@@ -175,7 +175,6 @@ const ctx = canvas.getContext('2d')
 let info = qg.getSystemInfoSync()
 const {screenWidth,screenHeight} = info
 // ctx.scale(screenWidth/375, screenHeight/667)
-ctx._setTransform(screenWidth/375,0,0,screenHeight/667,0,0)
 const oldGetContext = canvas.getContext;
 canvas.getContext = function(arg) {
   if(arg === '2d') {
@@ -194,9 +193,32 @@ function renderHandler() {
 if(!oldDrawImage) {
   if(oldDrawImage = ctx.drawImage) {
     ctx.constructor.prototype.drawImage = function(...args) {
+      // if(6 === args.length){
+      //   if(args[5] === 'fitScreen'){
+      //     if(args[3] == screenWidth){
+      //       args[3] = 375
+      //     }
+      //     if(args[4] == screenHeight){
+      //       args[4] = 667
+      //     }
+      //     args.pop()
+      //   }
+      // }
+      // else if(10 === args.length){
+      //   if(args[9] === 'fitScreen'){
+      //     console.log(args[7])
+      //     if(args[7] == screenWidth){
+      //       args[7] = 375
+      //     }
+      //     if(args[8] == screenHeight){
+      //       args[8] = 667
+      //     }
+      //     args.pop()
+      //   }
+      // }
       oldDrawImage.call(ctx,...args)
       setTextureCanvas(canvas);
-      renderTexCanvas();
+      // renderTexCanvas();
     }
   }
 }
@@ -205,7 +227,7 @@ if(!oldFill) {
     ctx.constructor.prototype.fill = function(...args) {
       oldFill.call(ctx,...args)
       setTextureCanvas(canvas);
-      renderHandler()
+      // renderHandler()
     }
   }
 }
@@ -214,7 +236,7 @@ if(!oldFillRect) {
     ctx.constructor.prototype.fillRect = function(...args) {
       oldFillRect.call(ctx,...args)
       setTextureCanvas(canvas);
-      renderHandler()
+      // renderHandler()
     }
   }
 }
@@ -223,7 +245,7 @@ if(!oldFillText) {
     ctx.constructor.prototype.fillText = function(...args) {
       oldFillText.call(ctx,...args)
       setTextureCanvas(canvas);
-      renderHandler()
+      // renderHandler()
     }
   }
 }
@@ -233,7 +255,7 @@ if(!oldStroke) {
     ctx.constructor.prototype.stroke = function(...args) {
       oldStroke.call(ctx,...args)
       setTextureCanvas(canvas);
-      renderHandler()
+      // renderHandler()
     }
   }
 }
@@ -243,7 +265,7 @@ if(!oldStrokeRect) {
     ctx.constructor.prototype.strokeRect = function(...args) {
       oldStrokeRect.call(ctx,...args)
       setTextureCanvas(canvas);
-      renderHandler()
+      // renderHandler()
     }
   }
 }
@@ -259,7 +281,7 @@ canvas.getBoundingClientRect = function() {
 }
 
 initTexCanvas(canvas);
-
+renderHandler()
 module.exports = {
   initTexCanvas,
   setTextureCanvas,
