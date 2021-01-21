@@ -26,7 +26,7 @@
     "koa-send": "^4.1.1",
     "koa-static": "^4.0.1",
     "qgame-toolkit": "1.1.9-alpha-laya-1",
-    "socket.io": "^2.1.0",
+    "socket.io": "^2.4.0",
     "webpack": "^3.11.0"
   }
 }
